@@ -137,7 +137,7 @@ total$Answer <- factor(total$Answer, levels=c("High burden of disease",
                                               "Benefits are independent of culture"))
 ggplot(total, aes(x=Answer, y=Count, fill=str_wrap(Prev, 30))) +
   labs(fill="Answer to Q56") +
-  ggtitle("Q57/58 - Opinions on the importance of OSI in neuroscience") +
+  ggtitle("Q57/58 - Opinions on the importance of OS in neuroscience") +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
   geom_bar(position="dodge", stat="identity", width = 0.68) +
   xlab("") +
