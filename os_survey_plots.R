@@ -16,40 +16,40 @@ getwd()
 # load packages ---------------------------------------------------------------------
 library(ggplot2)
 library(dplyr)
-library(forcats)
 
 # plop in q55 -----------------------------------------------------------------------
 q55 <- read.csv(q55_csv)
-colnames(q55)[3] <- "Response rate (%)" # fixing wonky column name
-# remove totals row
+colnames(q55)[3] <- "Response rate (%)"
 q55_cleaned <- q55[,-1]
-rownames(q55_cleaned) <- q55_cleaned[,1]
-row.names.remove <- c("Total")
-q55_cleaned <- q55_cleaned[!(row.names(q55_cleaned) %in% row.names.remove), ]
-
-# test
-# data <- data.frame(
-#   name=c("north","south","south-east","north-west","south-west","north-east","west","east"),
-#   val=sample(seq(1,10), 8 )
-# )
-# p <- data %>%
-#   mutate(name = fct_relevel(name, 
-#                             "north", "north-east", "east", 
-#                             "south-east", "south", "south-west", 
-#                             "west", "north-west")) %>%
-#   ggplot( aes(x=name, y=val)) +
-#   geom_bar(stat="identity") +
-#   xlab("")
+q55_cleaned <- q55_cleaned[-c(6), ]
 
 # make plot for q55, uses counts (not percentages)
 png('q55_counts.png', width = 700,height = 700)
-# p <- q55_cleaned %>%
-#   mutate(Answer = fct_relevel(Answer, 
-#                             "Totally agree", "Agree", "Neutral", 
-#                             "Disagree", "Totally Disagree")) %>%
+# there has to be a smarter way of doing this... couldn't figure this out 
+# (see previous commits): https://r-graph-gallery.com/267-reorder-a-variable-in-ggplot2.html
+q55_cleaned$Answer <- factor(q55_cleaned$Answer, levels=c("Totally Agree", "Agree", "Neutral", "Disagree", "Totally Diagree"))
   ggplot(q55_cleaned, aes(x=Answer, y=Count)) +
     ggtitle("Q55 - DMCBH becoming an Open Science Institute would bring value to the DMCBH community") + 
     geom_bar(stat = "identity") +
     xlab("Response") +
     ylab("Count")
+dev.off()
+
+# plot q52 and 56 ---------------------------------------------------------------------
+# Q52 - Based on the information available to you and your current understanding of what an Open Science Institute is,
+# should we position the DMCBH as an Open Science Institute?
+# Q56 - Do you think open science in especially important in neuroscience as compared to other fields?
+q52 <- read.csv(q52_csv)
+
+q56 <- read.csv(q56_csv)
+colnames(q56)[3] <- "Response rate (%)"
+q56_cleaned <- q56[,-1]
+q56_cleaned <- q56_cleaned[-c(3), ]
+png('q56_counts.png', width = 700,height = 700)
+q56_cleaned$Answer <- factor(q56_cleaned$Answer, levels=c("Yes", "No"))
+ggplot(q56_cleaned, aes(x=Answer, y=Count)) +
+  ggtitle("Q56 - Do you think open science in especially important in neuroscience as compared to other fields?") + 
+  geom_bar(stat = "identity") +
+  xlab("Response") +
+  ylab("Count")
 dev.off()
