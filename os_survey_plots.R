@@ -8,9 +8,9 @@ q52_csv <- "q52_table.csv"
 q56_csv <- "q56_table.csv"
 q57_csv <- "q57_table.csv"
 q58_csv <- "q58_table.csv"
-text_size = 15
-subtitle_size = 15
-title_size = 17
+text_size = 16
+subtitle_size = 18
+title_size=17
 bar_width = 0.5
 
 #set up directory!--------------------------------------------------------------------
@@ -35,11 +35,10 @@ q55_cleaned <- q55_cleaned[-c(6), ]
 q55_cleaned[q55_cleaned == "Totally Diagree"] <- "Totally Disagree" # fixing a typo = =
 
 # make plot for q55, uses counts (not percentages)
-png('q55_plot.png', width = 900,height = 700)
+png('q55_plot_presentation.png', width = 800,height = 700)
 # (see previous commits): https://r-graph-gallery.com/267-reorder-a-variable-in-ggplot2.html
 q55_cleaned$Answer <- factor(q55_cleaned$Answer, levels=c("Totally Agree", "Agree", "Neutral", "Disagree", "Totally Disagree"))
   ggplot(q55_cleaned, aes(x=Answer, y=Count)) +
-    ggtitle("Q55 - DMCBH becoming an OSI would bring value to the DMCBH community.") + 
     geom_bar(stat = "identity", fill = "#6ca8d9", width = 0.7) +
     xlab("") +
     ylab("Number of Responses") +
@@ -62,12 +61,10 @@ q52_cleaned <- q52[,-1]
 q52_cleaned <- q52_cleaned[-c(4), ]
 q52_cleaned$Answer<-gsub("\\.","",as.character(q52_cleaned$Answer)) # note that . by itself just means any character
 
-png('q52_plot.png', width = 1000,height = 700)
+png('q52_plot_presentation.png', width = 600,height = 700)
 q52_cleaned$Answer <- factor(q52_cleaned$Answer, levels=c("Yes", "No", "I don't know yet"))
 ggplot(q52_cleaned, aes(x=Answer, y=Count)) +
-  ggtitle("Q52 - Based on the information available to you and your current understanding of what an OSI 
-          is, should we position the DMCBH as an OSI?") + 
-  geom_bar(stat = "identity", fill = "#6ca8d9", width = 0.385) +
+  geom_bar(stat = "identity", fill = "#6ca8d9", width = 0.58) +
   xlab("") +
   ylab("Number of Responses") +
   theme(title=element_text(size=title_size, face="bold"),
@@ -83,11 +80,10 @@ q56 <- read.csv(q56_csv)
 colnames(q56)[3] <- "Response rate (%)"
 q56_cleaned <- q56[,-1]
 q56_cleaned <- q56_cleaned[-c(3), ]
-png('q56_plot.png', width = 920,height = 700)
+png('q56_plot_presentation.png', width = 400,height = 700)
 q56_cleaned$Answer <- factor(q56_cleaned$Answer, levels=c("Yes", "No"))
 ggplot(q56_cleaned, aes(x=Answer, y=Count)) +
-  ggtitle("Q56 - Do you think OS is especially important in neuroscience as compared to other fields?") + 
-  geom_bar(stat = "identity", fill = "#6ca8d9", width = 0.29) +
+  geom_bar(stat = "identity", fill = "#6ca8d9", width = 0.63) +
   xlab("") +
   ylab("Number of Responses") +
   theme(title=element_text(size=title_size, face="bold"),
@@ -128,7 +124,7 @@ total$Answer[total$Answer=="Science benefits everyone regardless of cultural vie
 total <- total[-c(4,8),]
 
 # attempting grouped... not working :-(
-png('q5758_plot.png', width = 1100,height = 700)
+png('q5758_plot_presentation.png', width = 800,height = 700)
 total$Answer <- factor(total$Answer, levels=c("High burden of disease",
                                               "Complexity of the brain",
                                               "Respect for cultural diversity",
@@ -137,14 +133,13 @@ total$Answer <- factor(total$Answer, levels=c("High burden of disease",
                                               "Benefits are independent of culture"))
 ggplot(total, aes(x=Answer, y=Count, fill=str_wrap(Prev, 30))) +
   labs(fill="Answer to Q56") +
-  ggtitle("Q57/58 - Opinions on the importance of OS in neuroscience") +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
-  geom_bar(position="dodge", stat="identity", width = 0.68) +
+  geom_bar(position="dodge", stat="identity", width = 0.83) +
   xlab("") +
   ylab("Number of Responses") +
   scale_fill_manual(values=c("#6ca8d9",
                              "#f58070")) +
-  scale_x_discrete(labels = wrap_format(35)) +
+  scale_x_discrete(labels = wrap_format(20)) +
   theme(legend.key.height=unit(2, "cm"),
         legend.text=element_text(size=text_size),
         legend.title=element_text(size=subtitle_size, face="bold"),
@@ -155,5 +150,5 @@ ggplot(total, aes(x=Answer, y=Count, fill=str_wrap(Prev, 30))) +
         panel.grid.minor = element_blank(),
         panel.background = element_blank(), 
         axis.line = element_line(colour = "black"),
-        legend.position = c(0.85, 0.85))
+        legend.position = c(0.80, 0.80))
 dev.off()
