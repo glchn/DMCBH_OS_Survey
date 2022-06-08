@@ -2,7 +2,7 @@
 # TODO: absolute size for bars
 
 # variables you need to update before running script ---------------------------------
-subdir <- "/22s_co-op/os_qualtrics_survey_20220502"
+subdir <- "/GitHub/DMCBH_OS_Survey/data"
 q55_csv <- "q55_table.csv"
 q52_csv <- "q52_table.csv"
 q56_csv <- "q56_table.csv"
